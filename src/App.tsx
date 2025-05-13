@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { register_api, login_api } from "./api/api.ts";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const navigate = useNavigate()
   const [register, setRegister] = useState({
     name: "",
     email: "",
@@ -40,7 +42,8 @@ function App() {
     try {
       const res = await login_api(login);
       console.log(res);
-      Cookies.set("JWT Token", res.data.jwt_token)
+      Cookies.set("JWTToken", res.data.jwt_token)
+      navigate("/items")
     } catch (error) {
       console.error(error);
     }

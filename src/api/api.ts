@@ -12,32 +12,29 @@ interface login_type {
   password: string,
 }
 
-enum QuantityType {
-  WEIGHT = "WEIGHT",
+type Weight = "Weight" | "Volume" | "Size" | "Unit ";
+type DiscountType = "PERCENTAGE";
+
+interface Variant {
+  quantity_type: Weight 
+  quantity: string;
+  price: number;
+  discount_type: DiscountType;
+  discount: number;
+  discounted_price: number;
 }
 
-enum DiscountType {
-  PERCENTAGE = "PERCENTAGE",
-}
-
-interface item_type {
+interface Item {
   restaurant_id: string;
   item_master_type_id: string;
   category_id: string;
   tag_id: string;
-  name: string;
   display_name: string;
-  description: string;
-  is_add_on: true;
+  name: string;
+  is_add_on: boolean;
   image_url: string;
-  variants: Array<{
-    quantity_type: QuantityType;
-    quantity: string;
-    price: number;
-    discount_type: DiscountType;
-    discount: number;
-    discounted_price: number;
-  }>;
+  description: string;
+  variants: Variant[];
 }
 
 export function register_api(payload:register_type){
@@ -46,6 +43,15 @@ export function register_api(payload:register_type){
 export function login_api(payload:login_type){
   return axios.post(`${Base_url}/authentication/login`, payload)
 }
-export function item_api(payload:item_type){
-  return axios.post(`${Base_url}/items`, payload)
+export function item_api(payload:Item, headers:any){
+  return axios.post(`${Base_url}/items`, payload, headers)
+}
+export function get_item_all_api(header:any){
+  return axios.get(`${Base_url}/item-master-types/all`, header)
+}
+export function get_all_category_api(header:any){
+  return axios.get(`${Base_url}/categories/all`, header)
+}
+export function get_all_tags_api(header:any){
+  return axios.get(`${Base_url}/tags/all`, header)
 }
