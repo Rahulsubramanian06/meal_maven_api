@@ -1,10 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
+import type { Weight, DiscountType } from "../api/api.ts";
+
 import {
   get_all_category_api,
   get_item_all_api,
   get_all_tags_api,
   item_api,
+  get_all_item_api,
 } from "../api/api.ts";
 import Cookies from "js-cookie";
 
@@ -23,10 +26,10 @@ export const Add_item = () => {
       {
         quantity_type: "",
         quantity: "",
-        price: 0,
+        price: "0",
         discount_type: "",
-        discount: 0,
-        discounted_price: 0,
+        discount: "0",
+        discounted_price: "0",
       },
     ],
   });
@@ -131,7 +134,14 @@ export const Add_item = () => {
         display_name: item_data.display_name,
         is_add_on: item_data.is_add_on,
         image_url: item_data.image_url,
-        variants: item_data.variants,
+        variants: item_data.variants.map((v) => ({
+          quantity_type: v.quantity_type as Weight, // cast string to union type
+          quantity: v.quantity,
+          price: parseFloat(v.price), // convert string to number
+          discount_type: v.discount_type as DiscountType,
+          discount: parseFloat(v.discount),
+          discounted_price: parseFloat(v.discounted_price),
+        })),
       };
       const header_token = {
         headers: { Authorization: `Bearer ${Cookies.get("JWTToken")}` },
@@ -142,7 +152,7 @@ export const Add_item = () => {
       console.log("Error:", error);
     }
   };
-
+   
   return (
     <div className="container my-5">
       <div className="card shadow-sm border-0">
@@ -276,7 +286,7 @@ export const Add_item = () => {
                   <div className="col-md-4">
                     <label className="form-label">Price</label>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control"
                       name="price"
                       value={variant.price}
@@ -300,7 +310,7 @@ export const Add_item = () => {
                   <div className="col-md-4">
                     <label className="form-label">Discount</label>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control"
                       name="discount"
                       value={variant.discount}
@@ -311,12 +321,55 @@ export const Add_item = () => {
                   <div className="col-md-4">
                     <label className="form-label">Discounted Price</label>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control"
                       name="discounted_price"
                       value={variant.discounted_price}
                       onChange={(e) => handleVariantChange(index, e)}
                     />
+                  </div>
+                  <div className="col-md-4">
+                    {index === item_data.variants.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setItem_data((prev) => ({
+                            ...prev,
+                            variants: [
+                              ...prev.variants,
+                              {
+                                quantity_type: "",
+                                quantity: "",
+                                price: "0",
+                                discount_type: "",
+                                discount: "0",
+                                discounted_price: "0",
+                              },
+                            ],
+                          }));
+                        }}
+                      >
+                        Add varient
+                      </button>
+                    )}
+                  </div>
+                  <div className="col-md-4">
+                    {item_data.variants.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => {
+                          setItem_data((prev) => ({
+                            ...prev,
+                            variants: prev.variants.filter(
+                              (_, i) => i !== index
+                            ),
+                          }));
+                        }}
+                      >
+                        Delete variant
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

@@ -12,8 +12,8 @@ interface login_type {
   password: string,
 }
 
-type Weight = "Weight" | "Volume" | "Size" | "Unit ";
-type DiscountType = "PERCENTAGE";
+export type Weight = "Weight" | "Volume" | "Size" | "Unit";
+export type DiscountType = "PERCENTAGE";
 
 interface Variant {
   quantity_type: Weight 
@@ -54,4 +54,7 @@ export function get_all_category_api(header:any){
 }
 export function get_all_tags_api(header:any){
   return axios.get(`${Base_url}/tags/all`, header)
+}
+export function get_all_item_api(header:any){
+  return axios.get(`${Base_url}/items/all`, header)
 }
