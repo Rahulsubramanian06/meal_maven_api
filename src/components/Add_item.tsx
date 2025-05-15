@@ -7,11 +7,13 @@ import {
   get_item_all_api,
   get_all_tags_api,
   item_api,
-  get_all_item_api,
 } from "../api/api.ts";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const Add_item = () => {
+    const navigate = useNavigate()
+
   const [item_data, setItem_data] = useState({
     restaurant_id: "",
     item_master_type_id: "",
@@ -148,6 +150,7 @@ export const Add_item = () => {
       };
       const response = await item_api(payload, header_token);
       console.log(response.data);
+      navigate("/item_table")
     } catch (error) {
       console.log("Error:", error);
     }

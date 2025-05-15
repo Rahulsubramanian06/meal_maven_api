@@ -55,6 +55,12 @@ export function get_all_category_api(header:any){
 export function get_all_tags_api(header:any){
   return axios.get(`${Base_url}/tags/all`, header)
 }
-export function get_all_item_api(header:any){
-  return axios.get(`${Base_url}/items/all`, header)
+export function get_all_item_api(header:any, restaurant_id:any){
+  return axios.get(`${Base_url}/items/all?restaurant_id=${restaurant_id}`, header)
+}
+export function delete_item_api(header:any, id:any){
+  return axios.delete(`${Base_url}/items?id=${id}`, header)
+}
+export function put_item_api(header:any, id:any){
+  return axios.put(`${Base_url}/items?id=${id}`,header)
 }
