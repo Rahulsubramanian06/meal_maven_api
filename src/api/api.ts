@@ -61,6 +61,6 @@ export function get_all_item_api(header:any, restaurant_id:any){
 export function delete_item_api(header:any, id:any){
   return axios.delete(`${Base_url}/items?id=${id}`, header)
 }
-export function put_item_api(header:any, id:any){
-  return axios.put(`${Base_url}/items?id=${id}`,header)
-}
+export const put_item_api = (headers: any, itemId: string | number, payload: any) => {
+  return axios.put(`https://your-api.com/items/${itemId}`, payload, headers);
+};

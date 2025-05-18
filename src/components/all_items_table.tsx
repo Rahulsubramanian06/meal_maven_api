@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 
 export function All_items_table() {
       const navigate = useNavigate()
-
   const [items, setItems] = useState([]);
   useEffect(() => {
     const get_table_item = async () => {

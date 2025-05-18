@@ -5,6 +5,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import App from './App.tsx'
 import {Add_item} from './components/Add_item.tsx'
 import { All_items_table } from './components/all_items_table.tsx'
+import { Edit_item } from './components/edit_item.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
@@ -13,6 +14,8 @@ createRoot(document.getElementById('root')!).render(
       <Route path='/items' element = {<Add_item />} />
       <Route path='/item_table' element={<All_items_table />} />
       <Route path='/item_table/:id' element={<All_items_table />} />
+      <Route path="/item_table" element={<Edit_item />} />
+
     </Routes>
     </BrowserRouter>
   </StrictMode>,
